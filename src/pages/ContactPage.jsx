@@ -1,128 +1,149 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Footer from "../components/Footer";
 import { GOLD } from "../constants";
 
-const CONTACT_PHOTO =
-  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=1200&q=80";
+const CONTACT_PHOTO = "/media/Images/luka%20rai%206.jpeg";
+
+function Reveal({ children, delay = 0, direction = "up", style }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const variants = {
+    up: { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0 } },
+    left: { hidden: { opacity: 0, x: -60 }, visible: { opacity: 1, x: 0 } },
+    right: { hidden: { opacity: 0, x: 60 }, visible: { opacity: 1, x: 0 } },
+  };
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={variants[direction]}
+      transition={{ duration: 0.7, delay, ease: [0.19, 1, 0.22, 1] }}
+      style={style}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function ContactPage() {
   return (
-    <div style={{ background: "#f3f3f3", color: "#111", minHeight: "calc(100vh - 68px)" }}>
+    <div style={{ background: "#ffffff", color: "#000000", minHeight: "calc(100vh - 72px)" }}>
       <section
         style={{
           maxWidth: 1320,
           margin: "0 auto",
-          padding: "74px clamp(18px, 4vw, 40px) 72px",
+          padding: "80px clamp(18px, 4vw, 40px) 80px",
         }}
       >
         <div
           className="contact-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "1.02fr 1fr",
-            gap: 52,
+            gridTemplateColumns: "1fr 1fr",
+            gap: 60,
             alignItems: "center",
           }}
         >
-          <div style={{ width: "100%" }}>
-            <img
-              src={CONTACT_PHOTO}
-              alt="Luka Rai portrait"
-              style={{
-                width: "100%",
-                maxHeight: 520,
-                objectFit: "cover",
-                display: "block",
-                borderRadius: 2,
-                boxShadow: "0 18px 45px rgba(0,0,0,0.12)",
-              }}
-            />
-          </div>
+          {/* Image */}
+          <Reveal direction="left">
+            <div style={{ width: "100%" }}>
+              <img
+                src={CONTACT_PHOTO}
+                alt="Luka Rai portrait"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+            </div>
+          </Reveal>
 
-          <div
-            style={{
-              textAlign: "left",
-              padding: "6px 6px",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "clamp(14px, 1.6vw, 16px)",
-                letterSpacing: "0.16em",
-                marginBottom: 16,
-                fontWeight: 500,
-                textTransform: "uppercase",
-                color: "#444",
-              }}
-            >
-              Get In Touch
-            </p>
+          {/* Text */}
+          <div style={{ textAlign: "center", padding: "20px" }}>
+            <Reveal delay={0.1}>
+              <p
+                style={{
+                  fontSize: "1.2rem",
+                  letterSpacing: "0.2em",
+                  marginBottom: 24,
+                  fontWeight: 500,
+                  color: "#000",
+                  fontFamily: "monospace",
+                }}
+              >
+                Get in Touch
+              </p>
+            </Reveal>
 
-            <h2
-              className="playfair"
-              style={{
-                color: GOLD,
-                fontSize: "clamp(34px, 5vw, 58px)",
-                lineHeight: 1.14,
-                fontWeight: 500,
-                marginBottom: 24,
-                maxWidth: 680,
-              }}
-            >
-              Let&apos;s Build Something Together
-            </h2>
+            <Reveal delay={0.3}>
+              <h2
+                style={{
+                  color: GOLD,
+                  fontSize: "clamp(24px, 3vw, 36px)",
+                  lineHeight: 1.4,
+                  fontWeight: 700,
+                  marginBottom: 40,
+                  fontFamily: "monospace",
+                }}
+              >
+                Let's Build Something Together
+              </h2>
+            </Reveal>
 
-            <p
-              style={{
-                fontSize: "clamp(20px, 2.5vw, 34px)",
-                marginBottom: 14,
-                color: "#1f1f1f",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Email: hello@garagecafe.np
-            </p>
-            <p
-              style={{
-                fontSize: "clamp(20px, 2.5vw, 34px)",
-                marginBottom: 14,
-                color: "#1f1f1f",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Location: Damak, Jhapa, Nepal
-            </p>
-            <p
-              style={{
-                fontSize: "clamp(20px, 2.5vw, 34px)",
-                marginBottom: 28,
-                color: "#1f1f1f",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Social Network: @lukarai
-            </p>
+            {/* Contact items */}
+            <Reveal delay={0.4}>
+              <div style={{ marginBottom: 24 }}>
+                <span style={{ fontSize: "1.2rem", color: "#000", fontWeight: 500, fontFamily: "monospace", letterSpacing: "0.05em" }}>
+                  Email:- helloluka@gmail.com
+                </span>
+              </div>
+            </Reveal>
 
-            <a
-              href="mailto:hello@garagecafe.np"
-              className="contact-email-btn"
-              style={{
-                display: "inline-block",
-                minWidth: 240,
-                background: "#020202",
-                color: "#fff",
-                textDecoration: "none",
-                padding: "12px 22px",
-                fontSize: "clamp(28px, 3vw, 36px)",
-                lineHeight: 1.06,
-                letterSpacing: "0.01em",
-                textAlign: "center",
-              }}
-            >
-              Send
-              <br />
-              Email
-            </a>
+            <Reveal delay={0.5}>
+              <div style={{ marginBottom: 24 }}>
+                <span style={{ fontSize: "1.2rem", color: "#000", fontWeight: 500, fontFamily: "monospace", letterSpacing: "0.05em" }}>
+                  location:- Kathmandu, Nepal
+                </span>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.6}>
+              <div style={{ marginBottom: 48 }}>
+                <span style={{ fontSize: "1.2rem", color: "#000", fontWeight: 500, fontFamily: "monospace", letterSpacing: "0.05em" }}>
+                  Social Network:- @lukarai
+                </span>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.7}>
+              <motion.a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=helloluka@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "#111111",
+                  color: "#ffffff",
+                  textDecoration: "none",
+                  padding: "16px 48px",
+                  fontSize: "1.1rem",
+                  fontWeight: 400,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                <span style={{ borderBottom: "1px solid #fff", paddingBottom: "2px" }}>
+                  Send Email
+                </span>
+              </motion.a>
+            </Reveal>
           </div>
         </div>
       </section>

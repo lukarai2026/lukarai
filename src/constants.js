@@ -25,28 +25,28 @@ export const BUSINESSES = [
     id: "cafe",
     category: "Cafe & Bar",
     name: "Garage Cafe\nLounge Bar",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+    img: "/media/Images/Garage Cafe Lounge Bar.jpeg",
     coming: false,
   },
   {
     id: "juice",
     category: "Juice & Dairy",
     name: "Garage Juice &\nBakery",
-    img: "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80",
+    img: "/media/Images/Garage Juice and Bakery.jpeg",
     coming: false,
   },
   {
     id: "bubble",
     category: "Beverages",
     name: "Luka's Bubble\nTea",
-    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+    img: "/media/Images/Luka Bubble Tea.png",
     coming: false,
   },
   {
     id: "barista",
     category: "Education",
     name: "Garage Barista\nSchool",
-    img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80",
+    img: "/media/Images/Garage Barista school.jpeg",
     coming: false,
   },
   {
@@ -60,15 +60,15 @@ export const BUSINESSES = [
 
 export const FOOTER_COLS = [
   {
-    title: "Businesses",
-    links: ["Garage Cafe Lounge Bar", "Garage Juice Box & Bakery", "Garage Barista School"],
+    title: "Features",
+    links: ["Core features", "Pro experience", "Integrations"],
   },
   {
-    title: "Explore",
-    links: ["Home", "About Business", "Contact"],
+    title: "Learn more",
+    links: ["Blog", "Customer stories", "Best practices"],
   },
   {
-    title: "Location",
-    links: ["Damak, Jhapa, Nepal", "Open 7 AM - 10 PM", "hello@garagecafe.np"],
+    title: "Support",
+    links: ["Contact", "Support", "Legal"],
   },
 ];

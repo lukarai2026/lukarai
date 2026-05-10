@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Footer from "../components/Footer";
-import PortraitPlaceholder from "../components/PortraitPlaceholder";
 import { GOLD, STATS, SKILLS } from "../constants";
 
 const BRANDS = [
@@ -10,6 +10,71 @@ const BRANDS = [
   "Luka's Bubble Tea",
 ];
 
+const HERO_MAIN_IMAGE = "/media/Images/luka%20rai1.jpeg";
+const LUKA_TWO_IMAGE = "/media/Images/luka%20rai%202.jpeg";
+const LUKA_THREE_IMAGE = "/media/Images/luka%20rai%203.jpeg";
+const LUKA_FOUR_IMAGE = "/media/Images/luka%20rai%204.jpeg";
+
+/* ── Reusable scroll-triggered wrapper ── */
+function Reveal({ children, delay = 0, direction = "up", style, className }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  const variants = {
+    up: { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0 } },
+    down: { hidden: { opacity: 0, y: -50 }, visible: { opacity: 1, y: 0 } },
+    left: { hidden: { opacity: 0, x: -60 }, visible: { opacity: 1, x: 0 } },
+    right: { hidden: { opacity: 0, x: 60 }, visible: { opacity: 1, x: 0 } },
+    scale: { hidden: { opacity: 0, scale: 0.85 }, visible: { opacity: 1, scale: 1 } },
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={variants[direction]}
+      transition={{ duration: 0.7, delay, ease: [0.19, 1, 0.22, 1] }}
+      style={style}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* ── Floating particles background ── */
+function ParticleField() {
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    size: Math.random() * 3 + 1,
+    delay: Math.random() * 8,
+    duration: Math.random() * 12 + 10,
+    opacity: Math.random() * 0.4 + 0.1,
+  }));
+
+  return (
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          style={{
+            position: "absolute",
+            left: `${p.left}%`,
+            bottom: "-10px",
+            width: p.size,
+            height: p.size,
+            borderRadius: "50%",
+            background: `rgba(200, 134, 42, ${p.opacity})`,
+            animation: `particle-float ${p.duration}s ${p.delay}s infinite linear`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function HomePage({ setPage }) {
   return (
     <div style={{ background: "#0a0a0a", color: "#fff" }}>
@@ -18,357 +83,452 @@ export default function HomePage({ setPage }) {
       <section
         className="hero-grid"
         style={{
-          minHeight: "calc(100vh - 68px)",
+          minHeight: "calc(100vh - 100px)",
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           alignItems: "center",
           padding: "60px clamp(18px, 4vw, 48px)",
-          maxWidth: 1360,
+          maxWidth: 1100,
           margin: "0 auto",
+          position: "relative",
+          background: "#000",
         }}
       >
+        <ParticleField />
+
         {/* Portrait */}
-        <div style={{ display: "flex", alignItems: "flex-end" }}>
-          <PortraitPlaceholder />
-        </div>
+        <Reveal direction="left" delay={0.2}>
+          <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+            <motion.div
+              className="image-frame"
+              style={{
+                width: 320,
+                height: 520,
+                position: "relative",
+                background: "#030712",
+                overflow: "hidden",
+              }}
+            >
+              <img
+                src={HERO_MAIN_IMAGE}
+                alt="Luka Rai"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center top",
+                  display: "block",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  top: 40,
+                  bottom: 40,
+                  left: 20,
+                  right: 20,
+                  border: "1px solid #CD803F",
+                  pointerEvents: "none",
+                }}
+              />
+            </motion.div>
+          </div>
+        </Reveal>
 
         {/* Text */}
-        <div style={{ paddingLeft: "clamp(0px, 3vw, 48px)" }}>
-          <h1
-            className="playfair"
-            style={{
-              fontSize: "clamp(48px, 6vw, 76px)",
-              fontWeight: 400,
-              color: "#fff",
-              letterSpacing: "0.05em",
-              lineHeight: 1.1,
-              marginBottom: 14,
-            }}
-          >
-            Luka Rai
-          </h1>
-
-          <p
-            className="playfair"
-            style={{
-              fontSize: "clamp(18px, 2.2vw, 26px)",
-              fontWeight: 400,
-              fontStyle: "italic",
-              color: GOLD,
-              letterSpacing: "0.06em",
-              marginBottom: 44,
-            }}
-          >
-            Entrepreneurial Spirit
-          </p>
-
-          {["BUSINESS OWNER", "LEADERSHIP", "STRATEGY"].map((tag) => (
-            <div
-              key={tag}
+        <div style={{ paddingLeft: "4vw", position: "relative", zIndex: 1, display: "flex", flexDirection: "column", gap: 12 }}>
+          <Reveal delay={0.3}>
+            <h1
               style={{
-                display: "inline-block",
-                marginRight: 12,
-                marginBottom: 12,
-                fontSize: 12,
+                fontFamily: "'Inter', sans-serif",
+                fontSize: "clamp(40px, 5vw, 56px)",
                 fontWeight: 600,
-                letterSpacing: "0.14em",
-                color: "rgba(255,255,255,0.9)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                padding: "8px 12px",
-              }}
-            >
-              {tag}
-            </div>
-          ))}
-
-          <div style={{ marginTop: 44 }}>
-            <button
-              className="about-btn"
-              onClick={() => setPage("about")}
-            >
-              About me <span style={{ fontSize: 22 }}>→</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ── VISION & PURPOSE ────────────────────── */}
-      <section style={{ background: "#111", padding: "100px clamp(18px, 4vw, 48px)" }}>
-        {/* Row 1 */}
-        <div
-          className="about-grid"
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 80,
-            alignItems: "start",
-            marginBottom: 80,
-          }}
-        >
-          <div>
-            <h2
-              className="playfair"
-              style={{
-                fontSize: "clamp(28px, 3.5vw, 44px)",
-                fontWeight: 400,
                 color: "#fff",
-                lineHeight: 1.3,
-                marginBottom: 32,
+                letterSpacing: "0.15em",
+                lineHeight: 1.1,
+                marginBottom: 8,
               }}
             >
-              A leader driven by
-              <br />
-              <span style={{ color: GOLD }}>Vision</span> and{" "}
-              <span style={{ color: GOLD }}>Purpose</span>
-            </h2>
+              Luka Rai
+            </h1>
+          </Reveal>
+
+          <Reveal delay={0.4}>
             <p
               style={{
-                fontSize: 15,
-                lineHeight: 1.9,
-                color: "rgba(255,255,255,0.72)",
-              }}
-            >
-              I am{" "}
-              <span style={{ color: GOLD, fontWeight: 600 }}>Luka Rai</span>, a
-              Resilient Entrepreneur and Business owner dedicated to building
-              impactful ventures from the ground up. Rooted in the hospitality
-              of my Nepalese heritage, I lead with a focus on empathy,
-              creativity, and the belief that growth comes through overcoming
-              challenges.
-            </p>
-          </div>
-
-          {/* Photo placeholder */}
-          <div
-            style={{
-              background: "#222",
-              aspectRatio: "4/5",
-              maxHeight: 480,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            <svg width="60%" viewBox="0 0 160 240" fill="none">
-              <ellipse
-                cx="80"
-                cy="56"
-                rx="40"
-                ry="44"
-                fill="rgba(255,255,255,0.08)"
-              />
-              <path
-                d="M8 240 C8 152 34 128 80 128 C126 128 152 152 152 240Z"
-                fill="rgba(255,255,255,0.06)"
-              />
-            </svg>
-            <div
-              style={{
-                position: "absolute",
-                top: 12,
-                left: 12,
-                right: 12,
-                bottom: 12,
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Row 2 */}
-        <div
-          className="about-grid"
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 80,
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              background: "#1a1a1a",
-              aspectRatio: "3/4",
-              maxHeight: 420,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width="55%" viewBox="0 0 140 200" fill="none">
-              <ellipse
-                cx="70"
-                cy="48"
-                rx="36"
-                ry="38"
-                fill="rgba(255,255,255,0.12)"
-              />
-              <path
-                d="M6 200 C6 130 28 108 70 108 C112 108 134 130 134 200Z"
-                fill="rgba(255,255,255,0.09)"
-              />
-            </svg>
-          </div>
-
-          <div>
-            <p
-              style={{
-                fontSize: 15,
-                lineHeight: 1.9,
-                color: "rgba(255,255,255,0.75)",
-                fontWeight: 600,
+                fontFamily: "'Inter', sans-serif",
+                fontSize: "clamp(24px, 3vw, 36px)",
+                fontWeight: 300,
+                color: "#CD803F",
+                letterSpacing: "0.12em",
                 marginBottom: 48,
               }}
             >
-              I worked in the hospitality business for 14 years in UAE. During
-              this time, I managed many different projects and learned a lot
-              about how to run successful businesses. I decided to bring all of
-              my great ideas back home to Nepal.
+              Entrepreneurial Spirit
             </p>
+          </Reveal>
 
-            {STATS.map(({ value, label }) => (
-              <div
-                key={value}
+          <Reveal delay={0.5}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 64 }}>
+              {["BUSINESS OWNER", "LEADERSHIP", "STRATEGY"].map((tag, i) => (
+                <motion.div
+                  key={tag}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 + i * 0.1 }}
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 18,
+                    fontWeight: 600,
+                    color: "#fff",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  {tag}
+                </motion.div>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.8}>
+            <div>
+              <motion.button
+                onClick={() => setPage("about")}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  gap: 20,
-                  padding: "14px 0",
-                  borderBottom: "1px solid rgba(255,255,255,0.07)",
+                  background: "#CD803F",
+                  color: "#000",
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 16,
+                  fontWeight: 500,
+                  padding: "16px 32px",
+                  border: "none",
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 24,
+                  letterSpacing: "0.02em",
                 }}
               >
-                <span
+                <span>About me</span> <span style={{ fontSize: 20, fontWeight: 300 }}>→</span>
+              </motion.button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── SHARED BACKGROUND WRAPPER ───────────── */}
+      <div
+        style={{
+          backgroundColor: "#050505",
+          backgroundImage: `linear-gradient(rgba(5,5,5,0.85), rgba(5,5,5,0.85)), url("${LUKA_FOUR_IMAGE}")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+          position: "relative",
+        }}
+      >
+        {/* ── VISION & PURPOSE ────────────────────── */}
+        <section
+          style={{
+            padding: "120px clamp(18px, 4vw, 48px)",
+          }}
+        >
+          <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 120 }}>
+          {/* Row 1 */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 80,
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <Reveal delay={0.1}>
+                <h2
                   style={{
-                    fontSize: 26,
-                    fontWeight: 700,
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: "clamp(32px, 4vw, 40px)",
+                    fontWeight: 600,
                     color: "#fff",
-                    minWidth: 52,
+                    lineHeight: 1.3,
+                    marginBottom: 32,
+                    letterSpacing: "0.02em"
                   }}
                 >
-                  {value}
-                </span>
-                <span
+                  A leader driven by
+                  <br />
+                  <span style={{ color: "#CD803F", fontFamily: "'Inter', sans-serif", fontWeight: 700 }}>Vision</span>
+                  <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700 }}> and </span>
+                  <span style={{ color: "#CD803F", fontFamily: "'Inter', sans-serif", fontWeight: 700 }}>Purpose</span>
+                </h2>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <p
                   style={{
-                    fontSize: 11,
-                    letterSpacing: "0.15em",
-                    color: "rgba(255,255,255,0.4)",
-                    textTransform: "uppercase",
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 15,
+                    lineHeight: 1.9,
+                    color: "#fff",
+                    letterSpacing: "0.02em"
                   }}
                 >
-                  {label}
-                </span>
+                  I am <span style={{ color: "#CD803F" }}>Luka Rai</span>, a
+                  Resilient Entrepreneur and Business owner dedicated to building
+                  impactful ventures from the ground up. Rooted in the hospitality
+                  of my Nepalese heritage, I lead with a focus on empathy,
+                  creativity, and the belief that growth comes through overcoming
+                  challenges. By combining strategic thinking with a commitment to empowering my
+                  team, I strive to turn big dreams into reality—one steady
+                  step at a time—bringing clarity, heart, and dedication to
+                  every project I touch.
+                </p>
+              </Reveal>
+            </div>
+
+            {/* Photo frame - Luka Rai 2 */}
+            <Reveal direction="right" delay={0.3}>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <motion.div
+                  className="image-frame"
+                  style={{
+                    width: "100%",
+                    maxWidth: 380,
+                    aspectRatio: "3/4",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "relative",
+                    overflow: "hidden",
+                    border: "1px solid rgba(255, 255, 255, 0.4)",
+                  }}
+                >
+                  <img
+                    src={LUKA_TWO_IMAGE}
+                    alt="Luka Rai portrait 2"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      display: "block",
+                      filter: "grayscale(100%)",
+                    }}
+                  />
+                </motion.div>
               </div>
-            ))}
+            </Reveal>
+          </div>
+
+          {/* Row 2 */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 80,
+              alignItems: "start",
+            }}
+          >
+            <Reveal direction="left">
+              <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                <motion.div
+                  className="image-frame"
+                  style={{
+                    width: "100%",
+                    maxWidth: 380,
+                    aspectRatio: "3/4",
+                    position: "relative",
+                    overflow: "hidden",
+                    border: "1px solid rgba(255, 255, 255, 0.4)",
+                  }}
+                >
+                  <img
+                    src={LUKA_THREE_IMAGE}
+                    alt="Luka Rai portrait 3"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      display: "block",
+                      filter: "grayscale(100%)",
+                    }}
+                  />
+                </motion.div>
+              </div>
+            </Reveal>
+
+            <div>
+              <Reveal delay={0.1}>
+                <p
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 14,
+                    lineHeight: 1.9,
+                    color: "#fff",
+                    letterSpacing: "0.08em",
+                    marginBottom: 32,
+                  }}
+                >
+                  I worked in the hospitality business for 14 years on UAE .
+                  During this time, I managed many different projects and
+                  learned a lot about how to run successful businesses. I
+                  decided to bring all of my great ideas back home to
+                  Nepal. Now, i started a new Business of Cafe that uses a
+                  "garage" style for its interior design. This unique look
+                  combines my  professional experience with a cool,
+                  creative design to offer something new and exciting to
+                  my customers.
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.2}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <div style={{ color: "#fff", fontSize: 15, fontFamily: "'Inter', sans-serif", letterSpacing: "0.06em" }}>14+</div>
+                  <div style={{ color: "#fff", fontSize: 15, fontFamily: "'Inter', sans-serif", letterSpacing: "0.06em", marginBottom: 8 }}>YEARS EXPERIENCE</div>
+                  
+                  <div style={{ color: "#fff", fontSize: 15, fontFamily: "'Inter', sans-serif", letterSpacing: "0.06em" }}>∞</div>
+                  <div style={{ color: "#fff", fontSize: 15, fontFamily: "'Inter', sans-serif", letterSpacing: "0.06em", marginBottom: 8 }}>FAST FOOD LEGACY</div>
+                  
+                  <div style={{ color: "#fff", fontSize: 15, fontFamily: "'Inter', sans-serif", letterSpacing: "0.06em" }}>JHP</div>
+                  <div style={{ color: "#fff", fontSize: 15, fontFamily: "'Inter', sans-serif", letterSpacing: "0.06em" }}>BASED IN JHAPA</div>
+                </div>
+              </Reveal>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── CORE SKILLS ─────────────────────────── */}
-      <section style={{ background: "#0a0805", padding: "80px clamp(18px, 4vw, 48px)" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <h2
-            style={{
-              fontWeight: 800,
-              fontSize: "clamp(26px, 3.5vw, 38px)",
-              color: "#fff",
-              marginBottom: 40,
-            }}
-          >
-            Core Skills
-          </h2>
+      <section
+        style={{
+          backgroundColor: "transparent",
+          padding: "60px clamp(18px, 4vw, 48px) 120px",
+          position: "relative",
+          marginTop: -40,
+        }}
+      >
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal delay={0.1}>
+            <h2
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontWeight: 700,
+                fontSize: "clamp(36px, 4vw, 48px)",
+                color: "#fff",
+                marginBottom: 48,
+                letterSpacing: "0.02em",
+              }}
+            >
+              Core Skills
+            </h2>
+          </Reveal>
 
-          {/* Row 1 — first 3 skills */}
           <div
             style={{
               display: "flex",
-              gap: 16,
-              marginBottom: 16,
+              gap: 24,
+              marginBottom: 24,
               flexWrap: "wrap",
             }}
           >
-            {SKILLS.slice(0, 3).map((s) => (
-              <div key={s} className="skill-box">{s}</div>
+            {SKILLS.slice(0, 3).map((s, i) => (
+              <Reveal key={s} delay={0.2 + i * 0.08}>
+                <div className="skill-box">{s}</div>
+              </Reveal>
             ))}
           </div>
 
-          {/* Row 2 — remaining skills */}
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            {SKILLS.slice(3).map((s) => (
-              <div key={s} className="skill-box">{s}</div>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+            {SKILLS.slice(3).map((s, i) => (
+              <Reveal key={s} delay={0.4 + i * 0.08}>
+                <div className="skill-box">{s}</div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* ── BUSINESS LIST ───────────────────────── */}
+      {/* ── BUSINESS LIST ───────────────────────── */}
       <section
         style={{
-          background: "#080604",
-          padding: "80px clamp(18px, 4vw, 48px)",
-          backgroundImage:
-            "radial-gradient(ellipse at 50% 60%, rgba(50,32,8,0.5) 0%, transparent 65%)",
+          background: "transparent",
+          padding: "60px clamp(18px, 4vw, 48px) 60px",
+          position: "relative",
         }}
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto" }}>
           {/* Decorated heading */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 28,
-              justifyContent: "center",
-              marginBottom: 60,
-            }}
-          >
+          <Reveal delay={0.1}>
             <div
               style={{
-                height: 1,
-                flex: 1,
-                maxWidth: 120,
-                background: "rgba(255,255,255,0.25)",
-              }}
-            />
-            <h2
-              className="playfair"
-              style={{
-                fontSize: "clamp(36px, 5vw, 56px)",
-                fontWeight: 400,
-                fontStyle: "italic",
-                color: GOLD,
+                display: "flex",
+                alignItems: "center",
+                gap: 24,
+                justifyContent: "center",
+                marginBottom: 64,
               }}
             >
-              Business
-            </h2>
-            <div
-              style={{
-                height: 1,
-                flex: 1,
-                maxWidth: 120,
-                background: "rgba(255,255,255,0.25)",
-              }}
-            />
-          </div>
+              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.3)" }} />
+              <h2
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: "clamp(36px, 5vw, 48px)",
+                  fontWeight: 600,
+                  color: "#CD803F",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                Business
+              </h2>
+              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.3)" }} />
+            </div>
+          </Reveal>
 
           {/* Brand list */}
-          <div style={{ maxWidth: 680 }}>
-            {BRANDS.map((brand) => (
-              <div
-                key={brand}
-                className="brand-item"
-                onClick={() => setPage("about")}
-              >
-                {brand}
-              </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 32, paddingLeft: "4vw" }}>
+            {BRANDS.map((brand, i) => (
+              <Reveal key={brand} delay={0.2 + i * 0.1}>
+                <div
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "clamp(18px, 2.5vw, 22px)",
+                    fontWeight: 400,
+                    color: "#fff",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  {brand}
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
+
+        {/* Copyright */}
+        <div
+          style={{
+            maxWidth: 1100,
+            margin: "0 auto",
+            marginTop: 100,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingTop: 32,
+          }}
+        >
+          <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, fontFamily: "'Inter', sans-serif" }}>
+            Luka Rai© 2025 —
+          </span>
+          <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, fontFamily: "'Inter', sans-serif" }}>
+            All rights reserved
+          </span>
+        </div>
       </section>
+      </div>
 
       <Footer />
     </div>

@@ -1,13 +1,39 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import BusinessCard from "../components/BusinessCard";
 import Footer from "../components/Footer";
 import { BUSINESSES } from "../constants";
 
-export default function AboutBusinessPage() {
+function Reveal({ children, delay = 0, direction = "up", style }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  const variants = {
+    up: { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0 } },
+    left: { hidden: { opacity: 0, x: -60 }, visible: { opacity: 1, x: 0 } },
+    right: { hidden: { opacity: 0, x: 60 }, visible: { opacity: 1, x: 0 } },
+    scale: { hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1 } },
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={variants[direction]}
+      transition={{ duration: 0.7, delay, ease: [0.19, 1, 0.22, 1] }}
+      style={style}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export default function AboutBusinessPage({ setPage }) {
   return (
     <div
       style={{
-        background: "#fff",
+        background: "#ffffff",
         color: "#111",
         minHeight: "100vh",
         fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif",
@@ -16,74 +42,82 @@ export default function AboutBusinessPage() {
       {/* ── Page heading ── */}
       <div
         style={{
-          padding: "62px clamp(18px, 4vw, 48px) 44px",
+          padding: "80px clamp(18px, 4vw, 48px) 56px",
           textAlign: "center",
+          position: "relative",
         }}
       >
-        <p
+        {/* Background subtle accent */}
+        <div
           style={{
-            fontSize: 12,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: "#b07d31",
-            marginBottom: 12,
-            fontWeight: 600,
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: 400,
+            height: 400,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%)",
+            transform: "translate(-50%, -50%)",
+            pointerEvents: "none",
           }}
-        >
-          Portfolio
-        </p>
-        <h1
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontWeight: 800,
-            fontSize: "clamp(26px, 4vw, 42px)",
-            color: "#111",
-            lineHeight: 1.2,
-            marginBottom: 16,
-          }}
-        >
-          Discover the
-          <br />
-          best local businesses.
-        </h1>
-        <p
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 15,
-            color: "#707070",
-            lineHeight: 1.7,
-            letterSpacing: "0.02em",
-            maxWidth: 700,
-            margin: "0 auto",
-          }}
-        >
-          Curated cafes, beverage brands, and educational ventures designed to
-          create community and elevate everyday experiences.
-        </p>
+        />
+
+        <Reveal delay={0.1}>
+          <h1
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(28px, 4vw, 36px)",
+              color: "#000",
+              lineHeight: 1.4,
+              marginBottom: 16,
+              letterSpacing: "0.05em",
+            }}
+          >
+            Discover the
+            <br />
+            best local businesses.
+          </h1>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 600,
+              fontSize: 14,
+              color: "#333",
+              letterSpacing: "0.1em",
+              maxWidth: 600,
+              margin: "0 auto",
+            }}
+          >
+            Curated cafes, juice bars & more — all in one place.
+          </p>
+        </Reveal>
       </div>
 
       {/* ── Business cards grid ── */}
       <div
         className="business-grid"
         style={{
-          maxWidth: 1100,
+          maxWidth: 1200,
           margin: "0 auto",
-          padding: "0 clamp(18px, 4vw, 48px) 100px",
+          padding: "0 clamp(18px, 4vw, 48px) 120px",
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          columnGap: 36,
-          rowGap: 64,
+          gridTemplateColumns: "repeat(4, 1fr)",
+          columnGap: 24,
+          rowGap: 56,
         }}
       >
-        {BUSINESSES.map((biz) => (
-          <BusinessCard key={biz.id} biz={biz} />
+        {BUSINESSES.map((biz, i) => (
+          <Reveal key={biz.id} delay={i * 0.1} direction="scale">
+            <BusinessCard biz={biz} setPage={setPage} />
+          </Reveal>
         ))}
       </div>
 
-      {/* Footer sits on dark background to match design */}
-      <div style={{ background: "#0a0a0a" }}>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }
