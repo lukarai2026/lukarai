@@ -30,6 +30,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -40,6 +42,12 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  width: 100%;
+}
+
+#root {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* ── Typography helpers ── */
@@ -451,13 +459,79 @@ a:focus-visible {
 @media (max-width: 768px) {
   .hero-grid,
   .about-grid,
+  .responsive-grid,
   .footer-cols,
   .contact-grid {
     grid-template-columns: 1fr !important;
+    gap: 48px !important;
+    text-align: center;
   }
-  .hero-grid > div:first-child { display: none; }
+
+  .hero-grid > .hero-portrait-container { display: flex; justify-content: center; margin-bottom: 32px; }
+  .hero-grid .hero-text-container { 
+    padding-left: 0 !important; 
+    text-align: center; 
+    align-items: center; 
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-grid .hero-text-container h1, 
+  .hero-grid .hero-text-container p { 
+    text-align: center; 
+  }
+  
+  .hero-grid .hero-text-container .tag-container {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Center images in responsive grids on mobile */
+  .responsive-grid img,
+  .contact-grid img,
+  .about-grid img {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  /* Adjust typography for smaller screens */
+  h1 { font-size: clamp(32px, 8vw, 42px) !important; }
+  h2 { font-size: clamp(24px, 6vw, 32px) !important; }
+  h3 { font-size: clamp(20px, 5vw, 24px) !important; }
+  p { font-size: 14px !important; line-height: 1.6 !important; }
+
   .business-grid {
     grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  .copyright-row {
+    flex-direction: column !important;
+    gap: 16px !important;
+    text-align: center !important;
+    margin-top: 60px !important;
+  }
+
+  /* Ensure detail page masonry-like layouts center their text blocks */
+  .responsive-grid > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .responsive-grid > div p {
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 60px 20px !important;
+  }
+  .skill-box {
+    padding: 12px 18px;
+    font-size: 12px;
   }
 }
 

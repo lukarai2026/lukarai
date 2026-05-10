@@ -11,6 +11,7 @@ export default function Footer() {
       }}
     >
       <div
+        className="footer-cols"
         style={{
           maxWidth: 1100,
           margin: "0 auto",
@@ -94,6 +95,7 @@ export default function Footer() {
 
         {/* Link columns */}
         <div
+          className="footer-cols"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr",

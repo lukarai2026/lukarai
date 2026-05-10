@@ -97,13 +97,14 @@ export default function HomePage({ setPage }) {
         <ParticleField />
 
         {/* Portrait */}
-        <Reveal direction="left" delay={0.2}>
+        <Reveal direction="left" delay={0.2} className="hero-portrait-container">
           <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
             <motion.div
               className="image-frame"
               style={{
-                width: 320,
-                height: 520,
+                width: "100%",
+                maxWidth: 320,
+                aspectRatio: "320 / 520",
                 position: "relative",
                 background: "#030712",
                 overflow: "hidden",
@@ -136,7 +137,7 @@ export default function HomePage({ setPage }) {
         </Reveal>
 
         {/* Text */}
-        <div style={{ paddingLeft: "4vw", position: "relative", zIndex: 1, display: "flex", flexDirection: "column", gap: 12 }}>
+        <div className="hero-text-container" style={{ paddingLeft: "4vw", position: "relative", zIndex: 1, display: "flex", flexDirection: "column", gap: 12 }}>
           <Reveal delay={0.3}>
             <h1
               style={{
@@ -169,7 +170,7 @@ export default function HomePage({ setPage }) {
           </Reveal>
 
           <Reveal delay={0.5}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 64 }}>
+            <div className="tag-container" style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 64 }}>
               {["BUSINESS OWNER", "LEADERSHIP", "STRATEGY"].map((tag, i) => (
                 <motion.div
                   key={tag}
@@ -238,6 +239,7 @@ export default function HomePage({ setPage }) {
           <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 120 }}>
           {/* Row 1 */}
           <div
+            className="responsive-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -324,6 +326,7 @@ export default function HomePage({ setPage }) {
 
           {/* Row 2 */}
           <div
+            className="responsive-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -510,6 +513,7 @@ export default function HomePage({ setPage }) {
 
         {/* Copyright */}
         <div
+          className="copyright-row"
           style={{
             maxWidth: 1100,
             margin: "0 auto",

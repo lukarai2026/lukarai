@@ -23,7 +23,7 @@ export default function GarageBaristaSchoolDetailPage({ setPage }) {
     <div style={{ background: "#ffffff", color: "#111", minHeight: "100vh", fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif" }}>
       
       {/* Back Button */}
-      <div style={{ padding: "40px 0 0 40px" }}>
+      <div style={{ padding: "40px 0 0 clamp(20px, 4vw, 40px)" }}>
         <button
           onClick={() => setPage("about")}
           style={{
@@ -117,13 +117,16 @@ export default function GarageBaristaSchoolDetailPage({ setPage }) {
         </div>
 
         {/* Bottom Section: Two Columns */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "0.9fr 1.1fr",
-          gap: "60px",
-          alignItems: "start",
-          marginBottom: "80px"
-        }}>
+        <div 
+          className="responsive-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "0.9fr 1.1fr",
+            gap: "60px",
+            alignItems: "start",
+            marginBottom: "80px"
+          }}
+        >
           
           {/* Left Column Image */}
           <div>
@@ -135,7 +138,7 @@ export default function GarageBaristaSchoolDetailPage({ setPage }) {
           </div>
 
           {/* Right Column Text */}
-          <div style={{ padding: "20px 0" }}>
+          <div style={{ padding: "clamp(0px, 4vw, 20px) 0" }}>
             
             <h3 style={{ 
               color: GOLD, 

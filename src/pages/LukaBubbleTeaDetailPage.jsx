@@ -35,7 +35,6 @@ export default function LukaBubbleTeaDetailPage({ setPage }) {
         <video
           src="/media/videos/lukas bubble tea.mov"
           autoPlay
-          muted
           loop
           playsInline
           controls
@@ -52,15 +51,18 @@ export default function LukaBubbleTeaDetailPage({ setPage }) {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "80px clamp(18px, 4vw, 48px) 120px" }}>
         
         {/* Two Column Layout */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "60px",
-          alignItems: "start",
-          marginBottom: "80px"
-        }}>
+        <div 
+          className="responsive-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "60px",
+            alignItems: "start",
+            marginBottom: "80px"
+          }}
+        >
           {/* Left Column Text */}
-          <div style={{ paddingRight: "20px" }}>
+          <div style={{ paddingRight: "clamp(0px, 4vw, 20px)" }}>
             <h2 style={{ 
               fontSize: "24px", 
               letterSpacing: "0.2em", 

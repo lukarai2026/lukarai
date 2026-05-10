@@ -35,7 +35,6 @@ export default function GarageCafeDetailPage({ setPage }) {
         <video
           src="/media/videos/garage cafe lounge bar.mov"
           autoPlay
-          muted
           loop
           playsInline
           controls
@@ -65,12 +64,15 @@ export default function GarageCafeDetailPage({ setPage }) {
         </p>
 
         {/* Masonry Layout Container */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1.3fr 1fr",
-          gap: "40px",
-          alignItems: "start",
-        }}>
+        <div 
+          className="responsive-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.3fr 1fr",
+            gap: "40px",
+            alignItems: "start",
+          }}
+        >
           
           {/* Left Column */}
           <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
@@ -86,7 +88,7 @@ export default function GarageCafeDetailPage({ setPage }) {
               style={{ width: "100%", height: "auto", display: "block" }} 
             />
             
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
+            <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
               <img 
                 src="/media/Images/garage cafe lounge bar 4.png" 
                 alt="Garage Cafe Lounge Bar 4" 
@@ -108,7 +110,7 @@ export default function GarageCafeDetailPage({ setPage }) {
               style={{ width: "100%", height: "auto", display: "block" }} 
             />
             
-            <div style={{ padding: "20px 40px 20px 20px" }}>
+            <div style={{ padding: "20px clamp(0px, 4vw, 40px) 20px 0" }}>
               <h2 style={{ 
                 fontSize: "24px", 
                 letterSpacing: "0.2em", 

@@ -35,7 +35,6 @@ export default function GarageJuiceDetailPage({ setPage }) {
         <video
           src="/media/videos/Garage Juice and Bakery.mov"
           autoPlay
-          muted
           loop
           playsInline
           controls
@@ -65,7 +64,7 @@ export default function GarageJuiceDetailPage({ setPage }) {
         </p>
 
         {/* Row 1: Two images side-by-side */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", marginBottom: "40px" }}>
+        <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", marginBottom: "40px" }}>
           <img 
             src="/media/Images/Garage Juice and bakery 1.jpeg" 
             alt="Garage Juice and Bakery 1" 
@@ -90,15 +89,18 @@ export default function GarageJuiceDetailPage({ setPage }) {
         </div>
 
         {/* Row 3: Text and Image */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "60px",
-          alignItems: "start",
-          marginBottom: "80px"
-        }}>
+        <div 
+          className="responsive-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "60px",
+            alignItems: "start",
+            marginBottom: "80px"
+          }}
+        >
           {/* Left Column Text */}
-          <div style={{ paddingRight: "20px" }}>
+          <div style={{ paddingRight: "clamp(0px, 4vw, 20px)" }}>
             <h2 style={{ 
               fontSize: "24px", 
               letterSpacing: "0.15em", 
